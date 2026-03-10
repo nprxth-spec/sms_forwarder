@@ -160,7 +160,7 @@ export default function HomePage() {
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
                       <div>
                         <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>รหัส OTP</div>
-                        <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: "0.15em", color: "var(--text-primary)", lineHeight: 1 }}>
+                        <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: "0.12em", color: "var(--text-primary)", lineHeight: 1 }}>
                           {entry.otp}
                         </div>
                       </div>
@@ -206,7 +206,7 @@ export default function HomePage() {
                       <tr key={`${item.deviceId}-${item.time}-${i}`} style={{ borderBottom: "1px solid var(--list-border)" }} className="transition-all hover:bg-[var(--input-bg)]">
                         <td style={{ padding: "16px 20px", fontWeight: 500, color: "var(--text-primary)" }}>{item.deviceName}</td>
                         <td style={{ padding: "16px 20px" }}>
-                          <span style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.1em", color: "var(--primary)" }}>{item.otp}</span>
+                          <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", color: "var(--primary)" }}>{item.otp}</span>
                         </td>
                         <td style={{ padding: "16px 20px", color: "var(--text-secondary)", fontSize: 13, lineHeight: 1.5 }}>
                           {item.message || <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>ไม่มีข้อความ</span>}
