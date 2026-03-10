@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { store } from "@/lib/store";
-import { isAuthEnabled } from "@/lib/auth";
+import { getAuthCookieName, getAuthCookieValue, isAuthEnabled } from "@/lib/auth";
 import Sidebar from "@/app/components/Sidebar";
 
 export default function ProtectedLayout({
@@ -10,8 +9,11 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }) {
   if (isAuthEnabled()) {
-    const sessionId = cookies().get("otp_session")?.value;
-    if (!sessionId || !store.getSession(sessionId)) {
+    const cookieName = getAuthCookieName();
+    const cookieValue = cookies().get(cookieName)?.value;
+    const expected = getAuthCookieValue();
+
+    if (!cookieValue || cookieValue !== expected) {
       redirect("/login");
     }
   }
