@@ -183,7 +183,7 @@ export default function LoginPage() {
           </button>
         </form>
       </div>
-      <style dangerouslySetInlineStyle={{ __html: `
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spin { 100% { transform: rotate(360deg); } }
       `}} />
     </main>
