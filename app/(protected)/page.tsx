@@ -35,7 +35,15 @@ function CountdownTimer({ time }: { time: string }) {
 
   const mins = Math.floor(timeLeft / 60000);
   const secs = Math.floor((timeLeft % 60000) / 1000);
-  const color = mins < 3 ? "var(--warning)" : "var(--success)";
+
+  let color = "var(--success)"; // เขียว
+  if (mins < 10 && mins >= 5) {
+    color = "#eab308"; // เหลือง
+  } else if (mins < 5 && mins >= 2) {
+    color = "#f97316"; // ส้ม
+  } else if (mins < 2) {
+    color = "var(--error)"; // แดง
+  }
 
   return (
     <span style={{ color, fontWeight: 600, fontVariantNumeric: "tabular-nums" }}>
@@ -190,7 +198,7 @@ export default function HomePage() {
                       <th style={{ padding: "12px 20px", fontWeight: 600, color: "var(--text-secondary)", borderBottom: "1px solid var(--border)", width: "20%" }}>เครื่อง</th>
                       <th style={{ padding: "12px 20px", fontWeight: 600, color: "var(--text-secondary)", borderBottom: "1px solid var(--border)", width: "15%" }}>OTP</th>
                       <th style={{ padding: "12px 20px", fontWeight: 600, color: "var(--text-secondary)", borderBottom: "1px solid var(--border)", width: "45%" }}>ข้อความเต็ม</th>
-                      <th style={{ padding: "12px 20px", fontWeight: 600, color: "var(--text-secondary)", borderBottom: "1px solid var(--border)", width: "20%", textAlign: "right" }}>เวลา</th>
+                      <th style={{ padding: "12px 20px", fontWeight: 600, color: "var(--text-secondary)", borderBottom: "1px solid var(--border)", width: "20%", textAlign: "right" }}>หมดอายุใน</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,8 +211,15 @@ export default function HomePage() {
                         <td style={{ padding: "16px 20px", color: "var(--text-secondary)", fontSize: 13, lineHeight: 1.5 }}>
                           {item.message || <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>ไม่มีข้อความ</span>}
                         </td>
-                        <td style={{ padding: "16px 20px", textAlign: "right", color: "var(--text-muted)", fontSize: 13, fontVariantNumeric: "tabular-nums" }}>
-                          {formatTime(item.time)}
+                        <td style={{ padding: "16px 20px", textAlign: "right", fontSize: 13 }}>
+                          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+                            <span style={{ padding: "2px 8px", borderRadius: 999, background: "var(--input-bg)", fontVariantNumeric: "tabular-nums" }}>
+                              <CountdownTimer time={item.time} />
+                            </span>
+                            <span style={{ color: "var(--text-muted)", fontSize: 11 }}>
+                              {formatTime(item.time)}
+                            </span>
+                          </div>
                         </td>
                       </tr>
                     ))}
