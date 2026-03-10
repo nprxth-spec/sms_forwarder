@@ -112,7 +112,7 @@ export default function LogsPage() {
           </div>
         )}
       </div>
-      <style dangerouslySetInlineStyle={{ __html: `
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spin { 100% { transform: rotate(360deg); } }
         tr:hover { background-color: var(--bg-page); }
       `}} />
