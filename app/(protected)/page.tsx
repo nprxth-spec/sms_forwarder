@@ -215,7 +215,7 @@ export default function HomePage() {
           </div>
         </section>
       </div>
-      <style dangerouslySetInlineStyle={{ __html: `
+      <style dangerouslySetInnerHTML={{ __html: `
         @keyframes pulse {
           0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
           70% { box-shadow: 0 0 0 6px rgba(37, 99, 235, 0); }
