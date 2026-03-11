@@ -115,21 +115,13 @@ export default function HomePage() {
   return (
     <main style={{ padding: "32px 40px", minHeight: "100%" }}>
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 32 }}>
-          <div>
-            <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.01em", color: "var(--text-primary)", margin: "0 0 8px 0" }}>
-              ภาพรวม OTP
-            </h1>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", margin: 0 }}>
-              รหัส OTP ที่ถูกอ่านข้อความจากมือถือ Android ทั้งหมดจะถูกส่งมาแสดงที่นี่
-            </p>
-          </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "var(--primary)", animation: "pulse 2s infinite" }} />
-            <span style={{ fontSize: 12, fontWeight: 600, color: "var(--text-secondary)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-              อัปเดตแบบ Real-time
-            </span>
-          </div>
+        <div style={{ marginBottom: 32 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.01em", color: "var(--text-primary)", margin: "0 0 8px 0" }}>
+            ภาพรวม OTP
+          </h1>
+          <p style={{ fontSize: 14, color: "var(--text-secondary)", margin: 0 }}>
+            รหัส OTP ที่ถูกอ่านข้อความจากมือถือ Android ทั้งหมดจะถูกส่งมาแสดงที่นี่
+          </p>
         </div>
 
         <section style={{ marginBottom: 40 }}>
