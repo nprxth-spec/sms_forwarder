@@ -9,20 +9,33 @@ export default function LogsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
+
     async function fetchLogs() {
       try {
         const res = await fetch("/api/auth/logs", { cache: "no-store", credentials: "include" });
         if (res.ok) {
           const data = await res.json();
-          setLogs(data);
+          if (!cancelled) {
+            setLogs(data);
+            setLoading(false);
+          }
         }
       } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
+        if (!cancelled) {
+          console.error(err);
+          setLoading(false);
+        }
       }
     }
+
     fetchLogs();
+    const id = setInterval(fetchLogs, 5000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(id);
+    };
   }, []);
 
   function formatTime(iso: string) {
