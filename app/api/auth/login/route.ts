@@ -6,8 +6,6 @@ import {
   isAuthEnabled,
 } from "@/lib/auth";
 import { store } from "@/lib/store";
-import { addAuthLog } from "@/lib/auth-logs";
-import { createSession } from "@/lib/auth-sessions";
 
 export async function POST(request: NextRequest) {
   if (!isAuthEnabled()) {
@@ -28,15 +26,15 @@ export async function POST(request: NextRequest) {
     const userAgent = request.headers.get("user-agent") || "Unknown";
 
     if (inputHash !== expected || !password.trim()) {
-      await addAuthLog({ action: "LOGIN", ip, userAgent, success: false });
+      store.addLog({ action: "LOGIN", ip, userAgent, success: false });
       return NextResponse.json(
         { message: "รหัสผ่านไม่ถูกต้อง" },
         { status: 401 },
       );
     }
 
-    const session = await createSession(ip, userAgent);
-    await addAuthLog({ action: "LOGIN", ip, userAgent, success: true });
+    const session = store.createSession(ip, userAgent);
+    store.addLog({ action: "LOGIN", ip, userAgent, success: true });
 
     const res = NextResponse.json({ ok: true });
     res.cookies.set(getAuthCookieName(), expected, getAuthCookieOptions());

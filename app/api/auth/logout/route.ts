@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuthCookieName } from "@/lib/auth";
-import { addAuthLog } from "@/lib/auth-logs";
-import { removeSession } from "@/lib/auth-sessions";
+import { store } from "@/lib/store";
 
 export async function POST(request: NextRequest) {
   const sessionId = request.cookies.get("otp_session")?.value;
@@ -9,10 +8,10 @@ export async function POST(request: NextRequest) {
   const userAgent = request.headers.get("user-agent") || "Unknown";
 
   if (sessionId) {
-    await removeSession(sessionId);
+    store.removeSession(sessionId);
   }
 
-  await addAuthLog({ action: "LOGOUT", ip, userAgent, success: true });
+  store.addLog({ action: "LOGOUT", ip, userAgent, success: true });
 
   const res = NextResponse.json({ ok: true });
   res.cookies.set(getAuthCookieName(), "", {
