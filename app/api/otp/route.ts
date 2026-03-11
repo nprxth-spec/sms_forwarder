@@ -9,7 +9,8 @@ export type OtpEntry = {
 };
 
 const MAX_ITEMS = 100;
-const EXPIRATION_MS = 15 * 60 * 1000; // 15 minutes
+// 15 นาที + buffer 45 วินาที เพื่อไม่ให้รายการหายก่อนนับถอยหลังฝั่ง client จะถึง 0 (รองรับเวลาเซิร์ฟเวอร์/ไคลเอนต์ไม่ตรงกัน)
+const EXPIRATION_MS = (15 * 60 + 45) * 1000;
 
 let items: OtpEntry[] = [];
 const latestByDevice = new Map<string, OtpEntry>();
@@ -18,12 +19,13 @@ function cleanUpOldEntries() {
   const now = Date.now();
   items = items.filter((entry) => {
     const entryTime = new Date(entry.time).getTime();
+    if (Number.isNaN(entryTime)) return false;
     return now - entryTime <= EXPIRATION_MS;
   });
 
   for (const [deviceId, entry] of latestByDevice.entries()) {
     const entryTime = new Date(entry.time).getTime();
-    if (now - entryTime > EXPIRATION_MS) {
+    if (Number.isNaN(entryTime) || now - entryTime > EXPIRATION_MS) {
       latestByDevice.delete(deviceId);
     }
   }
