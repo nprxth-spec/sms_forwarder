@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { store } from "@/lib/store";
+import { getAllSessions, clearOtherSessions } from "@/lib/auth-sessions";
 
 export async function GET() {
-  return NextResponse.json(store.getAllSessions());
+  const sessions = await getAllSessions(100);
+  return NextResponse.json(sessions);
 }
 
 export async function DELETE(request: NextRequest) {
@@ -10,6 +11,6 @@ export async function DELETE(request: NextRequest) {
   if (!sessionId) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  store.clearOtherSessions(sessionId);
+  await clearOtherSessions(sessionId);
   return NextResponse.json({ ok: true });
 }

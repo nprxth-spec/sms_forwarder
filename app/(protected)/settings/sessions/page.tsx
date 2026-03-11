@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Monitor, Smartphone, Globe, LogOut, Info, Clock } from "lucide-react";
-import type { Session } from "@/lib/store";
+import type { SessionRow as Session } from "@/lib/auth-sessions";
 
 export default function SessionsPage() {
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -50,8 +50,8 @@ export default function SessionsPage() {
     return new Date(iso).toLocaleString("th-TH");
   }
 
-  const getDeviceIcon = (userAgent: string) => {
-    const ua = userAgent.toLowerCase();
+  const getDeviceIcon = (userAgent?: string) => {
+    const ua = (userAgent || "").toLowerCase();
     if (ua.includes("mobile") || ua.includes("android") || ua.includes("iphone")) {
       return <Smartphone size={24} className="text-secondary" strokeWidth={1.5} />;
     }
@@ -179,7 +179,7 @@ export default function SessionsPage() {
                       <Info size={16} className="text-muted" style={{ marginTop: 2 }} />
                       <div>
                         <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 2 }}>เบราว์เซอร์</div>
-                        <div style={{ color: "var(--text-primary)", fontSize: 13, lineHeight: 1.5 }}>{session.userAgent}</div>
+                        <div style={{ color: "var(--text-primary)", fontSize: 13, lineHeight: 1.5 }}>{session.userAgent || "-"}</div>
                       </div>
                     </div>
                   </div>
