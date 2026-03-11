@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Monitor, Smartphone, Globe, LogOut, Info, Clock } from "lucide-react";
-import type { Session } from "@/lib/store";
+import type { SessionRow as Session } from "@/lib/auth-sessions";
 
 export default function SessionsPage() {
   const [sessions, setSessions] = useState<Session[]>([]);

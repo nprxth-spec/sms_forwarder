@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { store } from "@/lib/store";
+import { getLatestAuthLogs } from "@/lib/auth-logs";
 
 export async function GET() {
-  return NextResponse.json(store.getAllLogs());
+  const logs = await getLatestAuthLogs(200);
+  return NextResponse.json(logs);
 }

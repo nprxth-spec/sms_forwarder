@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Clock, ShieldAlert, ShieldCheck } from "lucide-react";
-import type { AuthLog } from "@/lib/store";
+import type { AuthLogRow as AuthLog } from "@/lib/auth-logs";
 
 export default function LogsPage() {
   const [logs, setLogs] = useState<AuthLog[]>([]);
