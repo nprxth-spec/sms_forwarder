@@ -62,25 +62,53 @@ const CopyButton = ({ text }: { text: string }) => {
   };
 
   return (
-    <button
-      onClick={handleCopy}
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: 36,
-        height: 36,
-        borderRadius: 10,
-        border: "none",
-        backgroundColor: copied ? "var(--success-bg)" : "var(--input-bg)",
-        color: copied ? "var(--success)" : "var(--text-secondary)",
-        cursor: "pointer",
-        transition: "all 0.2s",
-      }}
-      title="คัดลอก OTP"
-    >
-      {copied ? <CopyCheck size={18} /> : <Copy size={18} />}
-    </button>
+    <>
+      <button
+        onClick={handleCopy}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 36,
+          height: 36,
+          borderRadius: 10,
+          border: "none",
+          backgroundColor: copied ? "var(--success-bg)" : "var(--input-bg)",
+          color: copied ? "var(--success)" : "var(--text-secondary)",
+          cursor: "pointer",
+          transition: "all 0.2s",
+        }}
+        title="คัดลอก OTP"
+      >
+        {copied ? <CopyCheck size={18} /> : <Copy size={18} />}
+      </button>
+      {copied && (
+        <div
+          role="dialog"
+          aria-live="polite"
+          style={{
+            position: "fixed",
+            top: 16,
+            right: 16,
+            zIndex: 9999,
+            background: "var(--card-bg)",
+            borderRadius: 12,
+            border: "1px solid var(--border)",
+            boxShadow: "var(--card-shadow)",
+            padding: "12px 18px",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            color: "var(--success)",
+            fontSize: 14,
+            fontWeight: 600,
+          }}
+        >
+          <CopyCheck size={18} />
+          คัดลอกแล้ว
+        </div>
+      )}
+    </>
   );
 };
 
@@ -134,37 +162,28 @@ export default function HomePage() {
               ยังไม่มี OTP เข้ามา — ส่ง SMS OTP มาที่มือถือที่ติดตั้งแอพ
             </div>
           ) : (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 16 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {latestList.map(([deviceId, entry]) => (
-                <div key={deviceId} style={{ background: "var(--card-bg)", borderRadius: 16, border: "1px solid var(--border)", boxShadow: "var(--card-shadow)", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-                  <div style={{ padding: "16px 20px", borderBottom: "1px solid var(--border)", background: "var(--bg-page)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <Smartphone size={16} color="var(--text-muted)" />
-                      <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)" }}>{entry.deviceName}</span>
-                    </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Clock size={14} color="var(--text-muted)" />
-                      <span style={{ fontSize: 12, color: "var(--text-secondary)", fontVariantNumeric: "tabular-nums" }}>{formatTime(entry.time)}</span>
-                    </div>
+                <div key={deviceId} style={{ background: "var(--card-bg)", borderRadius: 16, border: "1px solid var(--border)", boxShadow: "var(--card-shadow)", overflow: "hidden", display: "flex", flexDirection: "row", alignItems: "stretch" }}>
+                  <div style={{ padding: "16px 20px", borderRight: "1px solid var(--border)", background: "var(--bg-page)", display: "flex", alignItems: "center", gap: 8, minWidth: 0 }}>
+                    <Smartphone size={16} color="var(--text-muted)" />
+                    <span style={{ fontSize: 14, fontWeight: 600, color: "var(--text-primary)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{entry.deviceName}</span>
                   </div>
-                  
-                  <div style={{ padding: 20, flex: 1, display: "flex", flexDirection: "column" }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-                      <div>
-                        <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", marginBottom: 4, textTransform: "uppercase", letterSpacing: "0.05em" }}>รหัส OTP</div>
-                        <div style={{ fontSize: 26, fontWeight: 700, letterSpacing: "0.12em", color: "var(--text-primary)", lineHeight: 1 }}>
-                          {entry.otp}
-                        </div>
+                  <div style={{ padding: "12px 16px", display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 12, flex: 1, minWidth: 0 }}>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 11, fontWeight: 600, color: "var(--text-muted)", marginBottom: 2, textTransform: "uppercase", letterSpacing: "0.05em" }}>รหัส OTP</div>
+                      <div style={{ fontSize: 16, fontWeight: 500, letterSpacing: "0.08em", color: "var(--text-primary)", lineHeight: 1 }}>
+                        {entry.otp}
                       </div>
-                      <CopyButton text={entry.otp} />
                     </div>
-
-                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: "auto", paddingTop: 16, borderTop: "1px dashed var(--border)" }}>
-                      <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>หมดอายุใน:</span>
-                      <span style={{ fontSize: 12, padding: "2px 8px", borderRadius: 999, background: "var(--input-bg)" }}>
-                        <CountdownTimer time={entry.time} />
-                      </span>
-                    </div>
+                    <CopyButton text={entry.otp} />
+                  </div>
+                  <div style={{ padding: "12px 16px", borderLeft: "1px solid var(--border)", background: "var(--bg-page)", display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+                    <Clock size={14} color="var(--text-muted)" />
+                    <span style={{ fontSize: 12, color: "var(--text-secondary)", fontVariantNumeric: "tabular-nums" }}>{formatTime(entry.time)}</span>
+                    <span style={{ fontSize: 12, padding: "2px 8px", borderRadius: 999, background: "var(--input-bg)" }}>
+                      <CountdownTimer time={entry.time} />
+                    </span>
                   </div>
                 </div>
               ))}
@@ -198,7 +217,7 @@ export default function HomePage() {
                       <tr key={`${item.deviceId}-${item.time}-${i}`} style={{ borderBottom: "1px solid var(--list-border)" }} className="transition-all hover:bg-[var(--input-bg)]">
                         <td style={{ padding: "16px 20px", fontWeight: 500, color: "var(--text-primary)" }}>{item.deviceName}</td>
                         <td style={{ padding: "16px 20px" }}>
-                          <span style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", color: "var(--primary)" }}>{item.otp}</span>
+                          <span style={{ fontSize: 13, fontWeight: 500, letterSpacing: "0.06em", color: "var(--primary)" }}>{item.otp}</span>
                         </td>
                         <td style={{ padding: "16px 20px", color: "var(--text-secondary)", fontSize: 13, lineHeight: 1.5 }}>
                           {item.message || <span style={{ color: "var(--text-muted)", fontStyle: "italic" }}>ไม่มีข้อความ</span>}

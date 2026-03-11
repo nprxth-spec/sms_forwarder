@@ -27,5 +27,3 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# android project (ไม่เอาขึ้น git)
-android-otp-app/
